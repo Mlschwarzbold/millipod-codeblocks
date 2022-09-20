@@ -26,8 +26,13 @@
 #define MILIPEDE_SPEED 4
 #define MILIPEDE_DESCENT_SPEED 2
 
+#define FAZENDEIRO_HITBOX_WIDTH 60
+#define FAZENDEIRO_HITBOX_HEIGHT 55
+
 #define MILIPEDE_HITBOX_WIDTH 50
 #define MILIPEDE_HITBOX_HEIGHT 60
+#define MILIPEDE_FOLLOW_DISTANCE 46
+#define MILIPEDE_DESCENT_FRAMES 25
 
 #define ARANHA_HITBOX_WIDTH 40
 #define ARANHA_HITBOX_HEIGHT 40
@@ -71,6 +76,7 @@ typedef struct {
 typedef struct {
   Vector2 position;
   Vector2 velocity;
+  int state;
 } ARANHA;
 
 typedef struct {

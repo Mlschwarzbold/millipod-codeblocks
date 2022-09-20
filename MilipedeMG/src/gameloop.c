@@ -14,6 +14,8 @@ void onFrame(GAMESTATE * gamestate, PLAYERINPUT * playerInput, Texture2D texture
 
         updateFazendeiroFiringDelay(&gamestate->fazendeiro);
 
+        monsterHit(gamestate);
+
         BeginDrawing();
 
         if (playerInput->shooting && gamestate->fazendeiro.firing_delay_frames == 0) {
@@ -24,6 +26,10 @@ void onFrame(GAMESTATE * gamestate, PLAYERINPUT * playerInput, Texture2D texture
         updateAllSpiders(gamestate->aranhas, gamestate);
 
         updateMilipede(&gamestate->milipede, gamestate);
+
+        respawnAranha(&gamestate->aranhas);
+
+        respawnMilipede(&gamestate->milipede);
 
 
 

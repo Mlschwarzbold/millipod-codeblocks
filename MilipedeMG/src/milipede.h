@@ -6,7 +6,7 @@
 #include "raylib.h"
 
 
-void initializeMilipede(GAMESTATE * gamestate);
+void initializeMilipede(MILIPEDE_HEAD * milipede);
 
 void initializeMilipedeSegment(MILIPEDE_SEGMENT * segment);
 
@@ -20,9 +20,23 @@ int milipedeCogumeloCollides(MILIPEDE_HEAD milipede, COGUMELO cogumelo);
 
 int milipedeCogumeloCollidesAll(MILIPEDE_HEAD milipede, COGUMELO cogumelos[]);
 
+int milipedeFazendeiroCollides(MILIPEDE_HEAD milipede, FAZENDEIRO player);
+
+void segmentFollow(MILIPEDE_SEGMENT * segment, Vector2 prev);
+
+void segmentMoveTo(MILIPEDE_SEGMENT * segment, Vector2 prev);
+
+void updateSegments(MILIPEDE_HEAD * milipede);
+
 void killMilipede(GAMESTATE * gamestate);
 
 void drawMilipede(MILIPEDE_HEAD milipede);
+
+void collideMilipede(FAZENDEIRO fazendeiro, MILIPEDE_HEAD milipede, RAYCOLLISION2D * collision);
+
+int shortenMilipede(MILIPEDE_HEAD * milipede);
+
+void respawnMilipede(MILIPEDE_HEAD * milipede);
 
 #endif
 

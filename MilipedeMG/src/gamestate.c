@@ -6,11 +6,21 @@ void shoot(GAMESTATE *gameState) {
 
   // Make a shot
   shotCollision = collideCogumelos(gameState->fazendeiro, gameState->cogumelos);
-
+  collideAranhas(gameState->fazendeiro, gameState->aranhas, &shotCollision);
+  collideMilipede(gameState->fazendeiro, gameState->milipede, &shotCollision);
   // See if the shot actually hit something
-  if (shotCollision.collisionType != nothing) {
+  if (shotCollision.collisionType == cogumeloHit) {
     gameState->cogumelos[shotCollision.targetIndex].state = INATIVO;
     gameState->fazendeiro.score += 100;
+  }
+
+  if (shotCollision.collisionType == aranhaHit) {
+    gameState->aranhas[shotCollision.targetIndex].state = INATIVO;
+    gameState->fazendeiro.score += 150;
+  }
+
+if (shotCollision.collisionType == milipedeHit) {
+    gameState->fazendeiro.score += shortenMilipede(&gameState->milipede);
   }
 
   // Draw the shot
@@ -54,4 +64,14 @@ void updateFrameCount(GAMESTATE *gameState)
           gameState->currentTime = 0;
         }
 
+}
+
+
+void monsterHit(GAMESTATE *gameState){
+    //test hit against spiders
+    if( aranhaFazendeiroCollidesAll(gameState->aranhas, gameState->fazendeiro))
+        gameState->fazendeiro.doente = 1;
+    //test hit against milipede
+    if( milipedeFazendeiroCollides(gameState->milipede, gameState->fazendeiro))
+        gameState->fazendeiro.doente = 1;
 }

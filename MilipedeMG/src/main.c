@@ -33,7 +33,7 @@ int main(void)
     initializeGameState(&currentGameState);
 
     initializeAranhas(&currentGameState);
-    initializeMilipede(&currentGameState);
+    initializeMilipede(&currentGameState.milipede);
 
     SetTargetFPS(60);
     // Main game loop

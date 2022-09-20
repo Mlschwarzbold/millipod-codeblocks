@@ -7,6 +7,9 @@
 // Makes a shot from the player into its target direction
 void shoot(GAMESTATE *gameState);
 
+// Tests and accounts for enemy damaga
+void monsterHit(GAMESTATE *gameState);
+
 // Initialize all variables related to the game state
 void initializeGameState(GAMESTATE *gameState);
 

@@ -78,7 +78,10 @@ void drawFazendeiro(FAZENDEIRO fazendeiro, int currentFrame, Texture2D texture){
   originVector.x = (float) SPRITE_SIZE * TEXTURE_SCALE / 2.0f;
   originVector.y = (float) SPRITE_SIZE * TEXTURE_SCALE / 2.0f;
 
-  DrawCircle(fazendeiro.position.x, fazendeiro.position.y, 32, BLUE);
+  if(fazendeiro.doente == 0)
+    DrawCircle(fazendeiro.position.x, fazendeiro.position.y, 32, BLUE);
+  else
+    DrawCircle(fazendeiro.position.x, fazendeiro.position.y, 32, RED);
   DrawTexturePro(texture,
                  animationRect,
                  destRect,
