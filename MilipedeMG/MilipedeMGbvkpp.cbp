@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="MilipedeMG" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/MilipedeMG" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/MilipedeMG" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="gameloop.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gameloop.h" />
+		<Unit filename="scoreboard/ranking.txt" />
+		<Unit filename="src/aranha.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/aranha.h" />
+		<Unit filename="src/cogumelo.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/cogumelo.h" />
+		<Unit filename="src/definitions.h" />
+		<Unit filename="src/fazendeiro.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/fazendeiro.h" />
+		<Unit filename="src/gamestate.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/gamestate.h" />
+		<Unit filename="src/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/milipede.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/milipede.h" />
+		<Unit filename="src/playerControl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/playerControl.h" />
+		<Unit filename="src/scoreboard.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/scoreboard.h" />
+		<Unit filename="src/sprites/cogumelo.png" />
+		<Unit filename="src/sprites/cogumelo.zip" />
+		<Unit filename="src/sprites/cogumelo/cogumelo.json" />
+		<Unit filename="src/sprites/cogumelo/cogumelo.png" />
+		<Unit filename="src/sprites/cogumelo/cogumelo_1.json" />
+		<Unit filename="src/sprites/cogumelo/cogumelo_1.png" />
+		<Unit filename="src/sprites/fazendeiro (1).zip" />
+		<Unit filename="src/sprites/fazendeiro (1)/fazendeiro.json" />
+		<Unit filename="src/sprites/fazendeiro.png" />
+		<Unit filename="src/sprites/fazendeiro.xcf" />
+		<Unit filename="src/sprites/fazendeiro.zip" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>

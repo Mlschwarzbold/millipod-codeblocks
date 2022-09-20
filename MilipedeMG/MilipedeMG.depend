@@ -1,0 +1,118 @@
+# depslib dependency file v1.0
+1661632786 source:c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\main.c
+	<stdio.h>
+	<time.h>
+	<stdlib.h>
+	<string.h>
+	"raylib.h"
+	"raymath.h"
+
+1661858965 source:c:\users\miguel\desktop\millipod-main (2)\millipod-main\src\cogumelo.c
+	"cogumelo.h"
+
+1661858965 c:\users\miguel\desktop\millipod-main (2)\millipod-main\src\cogumelo.h
+	"definitions.h"
+
+1661858965 c:\users\miguel\desktop\millipod-main (2)\millipod-main\src\definitions.h
+	"raylib.h"
+	"raymath.h"
+
+1661858965 source:c:\users\miguel\desktop\millipod-main (2)\millipod-main\src\fazendeiro.c
+	"fazendeiro.h"
+
+1661858965 c:\users\miguel\desktop\millipod-main (2)\millipod-main\src\fazendeiro.h
+	"definitions.h"
+	"raylib.h"
+
+1661858965 source:c:\users\miguel\desktop\millipod-main (2)\millipod-main\src\gamestate.c
+	"gamestate.h"
+
+1661858965 c:\users\miguel\desktop\millipod-main (2)\millipod-main\src\gamestate.h
+	"definitions.h"
+	"cogumelo.h"
+
+1661858965 source:c:\users\miguel\desktop\millipod-main (2)\millipod-main\src\playercontrol.c
+	"playerControl.h"
+
+1661858965 c:\users\miguel\desktop\millipod-main (2)\millipod-main\src\playercontrol.h
+	"definitions.h"
+
+1662409740 source:c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\cogumelo.c
+	"cogumelo.h"
+
+1662078581 c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\cogumelo.h
+	"definitions.h"
+
+1663637300 c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\definitions.h
+	"raylib.h"
+	"raymath.h"
+
+1662078699 source:c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\fazendeiro.c
+	"fazendeiro.h"
+
+1661860422 c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\fazendeiro.h
+	"definitions.h"
+	"raylib.h"
+
+1662407659 source:c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\gamestate.c
+	"gamestate.h"
+
+1661858965 c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\gamestate.h
+	"definitions.h"
+	"cogumelo.h"
+
+1661858965 source:c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\playercontrol.c
+	"playerControl.h"
+
+1661858965 c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\playercontrol.h
+	"definitions.h"
+
+1663636023 source:c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\main.c
+	<stdio.h>
+	<time.h>
+	<stdlib.h>
+	<string.h>
+	"fazendeiro.h"
+	"playerControl.h"
+	"cogumelo.h"
+	"gamestate.h"
+	"milipede.h"
+	"aranha.h"
+
+1663637141 source:c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\aranha.c
+	"aranha.h"
+
+1662398697 c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\aranha.h
+	"definitions.h"
+	"raylib.h"
+
+1663636921 source:c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\milipede.c
+	"milipede.h"
+
+1662409867 c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\milipede.h
+	"definitions.h"
+	"raylib.h"
+
+1662407659 source:c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\gameloop.c
+	"gameloop.h"
+
+1662407680 c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\gameloop.h
+	"raylib.h"
+
+1663634601 source:c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\scoreboard.c
+	"scoreboard.h"
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+
+1662850659 c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\scoreboard.h
+	"definitions.h"
+	"raylib.h"
+
+1663636722 source:c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\gameloop.c
+	"gameloop.h"
+
+1663635967 c:\users\miguel\desktop\arquivos de cadeiras\alg & prog\milipedemg\src\gameloop.h
+	"definitions.h"
+	"raylib.h"
+
