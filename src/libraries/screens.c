@@ -7,6 +7,34 @@
 #define ELEMENT_WIDTH 200
 #define ELEMENT_HEIGHT 45
 
+// Draws the textured background
+void drawBackground(Texture2D texture){
+    Rectangle animationRect;
+    Rectangle destRect;
+    Vector2 originVector;
+
+    animationRect.x = 0.0f;
+    animationRect.y = 0.0f;
+    animationRect.width = (float) SCREEN_WIDTH;
+    animationRect.height = (float) SCREEN_HEIGTH;
+
+    // Shift the sprite by half its size as to draw it on its center
+    originVector.x = 0;
+    originVector.y = 0;
+
+    destRect.width = (float) SCREEN_WIDTH;
+    destRect.height = (float) SCREEN_HEIGTH;
+    destRect.x = 0;
+    destRect.y = 0;
+
+    DrawTexturePro(texture,
+                    animationRect,
+                    destRect,
+                    originVector,
+                    0,
+                    WHITE);
+}
+
 // Draws centered text on the screen
 void drawCenteredText(const char text[], int fontSize, int posY, Color color) {
   int textWidth = MeasureText(text, fontSize);
@@ -29,13 +57,13 @@ void displayTutorial() {
   drawCenteredText("Pressione qualquer movimento para comecar!", 25, RECT_START_Y + RECT_HEIGHT - ELEMENT_HEIGHT + 5, WHITE);
 }
 
-// Display the pause screen and starts the load/save game data 
+// Display the pause screen and starts the load/save game data
 void displayPauseScreen(GAMESTATE *gameState) {
   // Constants for clearance on drawing
   const Rectangle TEXTBOX_BOUNDS = {(SCREEN_WIDTH-ELEMENT_WIDTH)/2, RECT_START_Y+2*ELEMENT_HEIGHT + 15, ELEMENT_WIDTH, ELEMENT_HEIGHT};
   const int BUTTONBOX_WIDTH = 2 * ELEMENT_WIDTH + 15;
 
-  const Rectangle BUTTON1_BOUNDS = {SCREEN_WIDTH/2 + 15, 
+  const Rectangle BUTTON1_BOUNDS = {SCREEN_WIDTH/2 + 15,
   RECT_START_Y + 3*ELEMENT_HEIGHT + 30, ELEMENT_WIDTH, ELEMENT_HEIGHT};
 
   const Rectangle BUTTON2_BOUNDS = {(SCREEN_WIDTH - BUTTONBOX_WIDTH)/2, RECT_START_Y + 3*ELEMENT_HEIGHT + 30, ELEMENT_WIDTH, ELEMENT_HEIGHT};
@@ -52,7 +80,7 @@ void displayPauseScreen(GAMESTATE *gameState) {
   GuiSetStyle(TEXTBOX, TEXT_ALIGNMENT, TEXT_ALIGN_LEFT);
   if(GuiTextBox(TEXTBOX_BOUNDS, gameState->fazendeiro.nome, PLAYER_NAME_SIZE, gameState->editingTextBox))
     gameState->editingTextBox = !gameState->editingTextBox; // Switch focus in and out
-  
+
   // Draw the load game button
   GuiSetStyle(BUTTON, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
   if (GuiButton(BUTTON1_BOUNDS, GuiIconText(ICON_FILE_OPEN, "Carregar Jogo"))){

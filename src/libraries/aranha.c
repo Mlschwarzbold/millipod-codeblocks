@@ -95,7 +95,7 @@ int aranhaCogumeloCollides(ARANHA aranha, COGUMELO cogumelo){
 
     if(CheckCollisionCircles(aranha.position, ARANHA_HITBOX_RADIUS, cogumelo.position, COGUMELO_HITBOX_RADIUS))
         return 1;
-    
+
     return 0;
 
 }
@@ -122,7 +122,7 @@ int aranhaFazendeiroCollides(ARANHA aranha, FAZENDEIRO player){
 
     if(CheckCollisionCircles(aranha.position, ARANHA_HITBOX_RADIUS, player.position, FAZENDEIRO_HITBOX_RADIUS))
         return 1;
-    
+
     return 0;
 }
 
@@ -137,13 +137,41 @@ int aranhaFazendeiroCollidesAll(ARANHA aranhas[], FAZENDEIRO player){
     return 0;
 }
 
-void drawSpiders(ARANHA aranhas[]){
+void drawSpiders(ARANHA aranhas[], int currentFrame, Texture2D texture){
     int index;
+    Rectangle animationRect;
+    Rectangle destRect;
+    Vector2 originVector;
+
+    // Draws the spider sprite based on its animation frame
+    animationRect.x = SPRITE_SIZE * currentFrame;
+    animationRect.y = 0.0f;
+    animationRect.width = (float) SPRITE_SIZE;
+    animationRect.height = (float) SPRITE_SIZE;
+
+    // Shift the sprite by half its size as to draw it on its center
+    originVector.x = (float) SPRITE_SIZE * TEXTURE_SCALE / 2.0f;
+    originVector.y = (float) SPRITE_SIZE * TEXTURE_SCALE / 2.0f;
+
+    destRect.width = SPRITE_SIZE * TEXTURE_SCALE;
+    destRect.height = SPRITE_SIZE * TEXTURE_SCALE;
+
+
     for(index = 0; index < NUM_ARANHAS; index++)
     {
         //DrawText("*", aranhas[index].position.x, aranhas[index].position.y, 40, WHITE);
-        if(aranhas[index].state == ATIVO)
-            DrawCircleV(aranhas[index].position, ARANHA_HITBOX_RADIUS, PURPLE);
+        if(aranhas[index].state == ATIVO) {
+            destRect.x = aranhas[index].position.x;
+            destRect.y = aranhas[index].position.y;
+
+            //DrawCircleV(aranhas[index].position, ARANHA_HITBOX_RADIUS, PURPLE);
+            DrawTexturePro(texture,
+                    animationRect,
+                    destRect,
+                    originVector,
+                    0,
+                    WHITE);
+        }
     }
 
 }

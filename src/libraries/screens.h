@@ -5,10 +5,13 @@
 #define SCREENS_H
 #include "definitions.h"
 
+// Draws the textured background
+void drawBackground(Texture2D texture);
+
 // Draws text vertically centered on the screen
 void drawCenteredText(const char text[], int fontSize, int posY, Color color);
 
-// Display the pause screen and starts the load/save game data 
+// Display the pause screen and starts the load/save game data
 void displayPauseScreen(GAMESTATE *gameState);
 
 // Display the tutorial screen

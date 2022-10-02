@@ -232,7 +232,7 @@ void drawMilipedeSegment(MILIPEDE_SEGMENT segment, int currentFrame, Texture2D t
 
     int pixelMod;
 
-    pixelMod = ((int)(segment.position.x + segment.position.y)/20 % 2);
+    pixelMod = ((int)(segment.position.x + segment.position.y)/MILIPEDE_WALK_DIST_ANIM % 2);
 
     // Draws the head sprite based on its animation frame
     animationRect.x = SPRITE_SIZE * pixelMod;

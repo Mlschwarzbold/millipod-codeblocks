@@ -21,11 +21,15 @@ void initializeGameState(GAMESTATE *gameState, int numCogumelos) {
 void drawGame(GAMESTATE *gameState, Texture2D textures[]) {
   // Draw the background
   ClearBackground(DARKPURPLE);
+
+  // Draw the textured backgroubd
+  //drawBackground(textures[BACKGROUND_INDEX]);
+
   // Draw the upper line
   drawCenteredText(TextFormat("Cogumelos Colhidos: %d | Cogumelos Restantes: %d | Vidas: %d | Tiros: %d", gameState->harvestedCogumelos, gameState->remainingCogumelos, gameState->fazendeiro.vidas, gameState->fazendeiro.numTiros), 30, 0, WHITE);
 
   // Draw the Spiders
-  drawSpiders(gameState->aranhas);
+  drawSpiders(gameState->aranhas, gameState->currentAnimationFrame, textures[ARANHA_INDEX]);
 
   // Draw the Milipede
   drawMilipede(gameState->milipede, gameState->currentAnimationFrame, textures[MILIPEDE_INDEX]);
@@ -148,12 +152,14 @@ void bootGame(GAMESTATE *gameState) {
   Texture2D textures[NUM_TEXTURES];
   PLAYERINPUT playerInput;
 
-  Image tutorialImg = LoadImage("./sprites/tutorial.png");
+  Image tutorialImg = LoadImage("./src/sprites/tutorial.png");
 
   // Initialize the game textures:
   textures[FAZENDEIRO_INDEX] = LoadTexture("./src/sprites/fazendeiro.png");
   textures[COGUMELO_INDEX] = LoadTexture("./src/sprites/cogumelo.png");
   textures[MILIPEDE_INDEX] = LoadTexture("./src/sprites/milipede.png");
+  textures[ARANHA_INDEX] = LoadTexture("./src/sprites/aranha.png");
+  textures[BACKGROUND_INDEX] = LoadTexture("./src/sprites/background.png");
 
   // Main game loop
   while (!WindowShouldClose())
