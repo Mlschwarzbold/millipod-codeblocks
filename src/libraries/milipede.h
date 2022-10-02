@@ -12,13 +12,13 @@ void initializeMilipedeSegment(MILIPEDE_SEGMENT * segment);
 
 void updateMilipede(MILIPEDE_HEAD * milipede, GAMESTATE * gamestate);
 
-int testMilipedeNextFrameCollision(MILIPEDE_HEAD milipede, GAMESTATE * gamestate);
+int testMilipedeNextFrameCollision(MILIPEDE_HEAD * milipede, GAMESTATE * gamestate);
 
 int milipedeBorderCollision(Vector2 position);
 
 int milipedeCogumeloCollides(MILIPEDE_HEAD milipede, COGUMELO cogumelo);
 
-int milipedeCogumeloCollidesAll(MILIPEDE_HEAD milipede, COGUMELO cogumelos[]);
+int milipedeCogumeloCollidesAll(MILIPEDE_HEAD milipede, MILIPEDE_HEAD * real_milipede, COGUMELO cogumelos[]);
 
 int milipedeFazendeiroCollides(MILIPEDE_HEAD milipede, FAZENDEIRO player);
 
@@ -37,6 +37,8 @@ void drawMilipedeSegment(MILIPEDE_SEGMENT segment, int currentFrame, Texture2D t
 void collideMilipede(FAZENDEIRO fazendeiro, MILIPEDE_HEAD milipede, RAYCOLLISION2D * collision);
 
 int shortenMilipede(MILIPEDE_HEAD * milipede);
+
+void lengthenMilipede(MILIPEDE_HEAD * milipede);
 
 void respawnMilipede(MILIPEDE_HEAD * milipede);
 

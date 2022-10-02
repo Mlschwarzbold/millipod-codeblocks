@@ -25,7 +25,7 @@ void updateMilipede(MILIPEDE_HEAD * milipede, GAMESTATE * gamestate){
         return;
 
     //test collision on next frame
-    if(testMilipedeNextFrameCollision(*milipede, gamestate))
+    if(testMilipedeNextFrameCollision(milipede, gamestate))
     {
         if(milipede->descendFrames == 0) milipede->direction *= -1;
         milipede->descendFrames = MILIPEDE_DESCENT_FRAMES;
@@ -65,23 +65,24 @@ void updateSegments(MILIPEDE_HEAD * milipede){
 }
 
 
-int testMilipedeNextFrameCollision(MILIPEDE_HEAD milipede, GAMESTATE * gamestate){
+int testMilipedeNextFrameCollision(MILIPEDE_HEAD * milipede, GAMESTATE * gamestate){
     //Generate the next frame position
-    MILIPEDE_HEAD nextFrameMilipede = milipede;
+    MILIPEDE_HEAD nextFrameMilipede = *milipede;
 
-    if(milipede.descendFrames > 0){
+    if(milipede->descendFrames > 0){
         //descend
         nextFrameMilipede.position.y += MILIPEDE_DESCENT_SPEED;
     }
     else {
         //move normally
-        nextFrameMilipede.position.x += milipede.direction * MILIPEDE_SPEED;
+        nextFrameMilipede.position.x += milipede->direction * MILIPEDE_SPEED;
 
     }
 
-    if(milipedeBorderCollision(nextFrameMilipede.position) || milipedeCogumeloCollidesAll(nextFrameMilipede, gamestate->cogumelos))
+    if(milipedeBorderCollision(nextFrameMilipede.position) || milipedeCogumeloCollidesAll(nextFrameMilipede, milipede, gamestate->cogumelos))
         return 1;
-    return 0;
+    else
+        return 0;
 }
 
 int milipedeBorderCollision(Vector2 position){
@@ -104,13 +105,14 @@ int milipedeCogumeloCollides(MILIPEDE_HEAD milipede, COGUMELO cogumelo){
 }
 
 // tests the collision of one spider against all of the mushrooms
-int milipedeCogumeloCollidesAll(MILIPEDE_HEAD milipede, COGUMELO cogumelos[]){
+int milipedeCogumeloCollidesAll(MILIPEDE_HEAD milipede, MILIPEDE_HEAD * real_milipede, COGUMELO cogumelos[]){
     int index;
 
     for(index=0; index < NUM_COGUMELOS; index++)
     {
         if(milipedeCogumeloCollides(milipede, cogumelos[index])){
 
+            lengthenMilipede(real_milipede);
             destroyCogumelo(cogumelos, index);
             return 1;
             }
@@ -294,6 +296,18 @@ int shortenMilipede(MILIPEDE_HEAD * milipede){
     milipede->segments[index - 1].state = INATIVO;
 
     return 250;
+}
+
+void lengthenMilipede(MILIPEDE_HEAD * milipede){
+    int index = 0;
+    // Travels the segments until the last one, be that the max number of segments or the last active segment
+    while((index + 1) < NUM_MAX_SEGMENTOS && milipede->segments[index].state == ATIVO){
+        index++;
+    }
+    milipede->segments[index].state = ATIVO;
+
+    return 250;
+
 }
 
 

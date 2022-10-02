@@ -43,7 +43,7 @@ void updateFazendeiroDirection(FAZENDEIRO *fazendeiro, Vector2 mousePosition) {
   else if (direction.y >= PI/4) fazendeiro->direction = BAIXO;
   else if (direction.x <= -PI/4) fazendeiro->direction = ESQUERDA;
   else if (direction.x >= PI/4) fazendeiro->direction = DIREITA;
-  
+
 }
 
 
@@ -79,7 +79,7 @@ if(fazendeiro.doente == 0)
                 originVector,
                 0,
                 WHITE);
-  
+
 };
 
 // Updates the firing delay
@@ -93,9 +93,11 @@ void updateFazendeiroFiringDelay(FAZENDEIRO *fazendeiro) {
 // Makes a shot from the player into its target direction
 void shoot(GAMESTATE *gameState) {
   RAYCOLLISION2D shotCollision;
-  
+
   // Make a shot
   shotCollision = collideCogumelos(gameState->fazendeiro, gameState->cogumelos);
+  collideAranhas(gameState->fazendeiro, gameState->aranhas, &shotCollision);
+  collideMilipede(gameState->fazendeiro, gameState->milipede, &shotCollision);
 
   // Remove ammo from player
   gameState->fazendeiro.numTiros--;
@@ -103,7 +105,16 @@ void shoot(GAMESTATE *gameState) {
   // See if the shot actually hit something
   if (shotCollision.collisionType == cogumeloHit) {
     gameState->cogumelos[shotCollision.targetIndex].state = INATIVO;
+    gameState->fazendeiro.score += 50;
     gameState->harvestedCogumelos++;
+  }
+  if (shotCollision.collisionType == aranhaHit) {
+    gameState->aranhas[shotCollision.targetIndex].state = INATIVO;
+    gameState->fazendeiro.score += 150;
+  }
+
+  if (shotCollision.collisionType == milipedeHit) {
+    gameState->fazendeiro.score += shortenMilipede(&gameState->milipede);
   }
 
   // Draw the shot
