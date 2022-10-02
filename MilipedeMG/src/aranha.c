@@ -1,5 +1,6 @@
 #include "aranha.h"
 
+
 void initializeAranhas(GAMESTATE * gamestate){
     int index;
     for(index=0; index < NUM_ARANHAS; index++){
@@ -9,7 +10,7 @@ void initializeAranhas(GAMESTATE * gamestate){
 
 void initializeAranha(ARANHA * aranha){
         aranha->position.x = 50 + (rand() % SCREEN_WIDTH) * 0.6;
-        aranha->position.y = -60;
+        aranha->position.y = -300 - (rand() & 300);
         if(rand() % 2)
             aranha->velocity.x = 5;
         else
@@ -52,6 +53,10 @@ void updateSpiderPositionAndMushrooms(ARANHA *aranha, GAMESTATE * gamestate){
 
     aranha->position = Vector2Add(aranha->position, aranha->velocity);
 
+    // Kills the spider if it goes below the screen
+    if(aranha->position.y > SCREEN_HEIGTH)
+        aranha->state = INATIVO;
+
 
 }
 
@@ -87,7 +92,7 @@ Vector2 testAranhaNextFrameCollision(ARANHA aranha, GAMESTATE * gamestate){
 
 int aranhaBorderCollides(ARANHA aranha)
 {
-    if(aranha.position.x < 0 || (aranha.position.y < 0 && aranha.velocity.y < 0) || aranha.position.x > SCREEN_WIDTH|| aranha.position.y > SCREEN_HEIGTH)
+    if(aranha.position.x < 0 || (aranha.position.y < 0 && aranha.velocity.y < 0) || aranha.position.x > SCREEN_WIDTH)
         return 1;
     else
         return 0;
@@ -196,8 +201,7 @@ void collideAranhas(FAZENDEIRO fazendeiro, ARANHA aranhas[], RAYCOLLISION2D * co
   Vector2 fazendeiroAimMaxRange = Vector2Add(fazendeiro.position, Vector2Scale(fazendeiro.aimDirection, MAX_DISTANCE));
   float currentDistance,
         minDistance = collision->collisionDistance;
-  int i,
-      returnIndex = -1;
+  int i;
 
   for (i = 0; i < NUM_ARANHAS; i++) {
     // Check if spider is active and in the aim line

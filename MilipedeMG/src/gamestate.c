@@ -12,6 +12,10 @@ void shoot(GAMESTATE *gameState) {
   if (shotCollision.collisionType == cogumeloHit) {
     gameState->cogumelos[shotCollision.targetIndex].state = INATIVO;
     gameState->fazendeiro.score += 100;
+
+    //decrease the to_eat counter
+    ateCogumelo(&gameState->fazendeiro);
+
   }
 
   if (shotCollision.collisionType == aranhaHit) {
@@ -28,6 +32,8 @@ if (shotCollision.collisionType == milipedeHit) {
 
   // Reset the firing delay
   gameState->fazendeiro.firing_delay_frames = FIRING_DELAY;
+
+
 }
 
 // Initializer all variables related to the game state
@@ -68,10 +74,25 @@ void updateFrameCount(GAMESTATE *gameState)
 
 
 void monsterHit(GAMESTATE *gameState){
-    //test hit against spiders
-    if( aranhaFazendeiroCollidesAll(gameState->aranhas, gameState->fazendeiro))
-        gameState->fazendeiro.doente = 1;
-    //test hit against milipede
-    if( milipedeFazendeiroCollides(gameState->milipede, gameState->fazendeiro))
-        gameState->fazendeiro.doente = 1;
+    //If the fazendeiro is invulnerable, ignore monster collisions
+    if(gameState->fazendeiro.i_frames==0){
+        //test hit against spiders
+        if( aranhaFazendeiroCollidesAll(gameState->aranhas, gameState->fazendeiro)){
+            gameState->fazendeiro.doente += 1;
+            gameState->fazendeiro.i_frames = I_FRAMES;
+            gameState->fazendeiro.to_eat = COGUMELOS_TO_EAT -1;
+        }
+        //test hit against milipede
+        if( milipedeFazendeiroCollides(gameState->milipede, gameState->fazendeiro)){
+            gameState->fazendeiro.doente += 1;
+            gameState->fazendeiro.i_frames = I_FRAMES;
+            gameState->fazendeiro.to_eat = COGUMELOS_TO_EAT -1;
+        }
+    }
+}
+
+void killFazendeiro(GAMESTATE *gameState){
+    if(gameState->fazendeiro.doente == 2){
+        CloseWindow();
+    }
 }

@@ -19,4 +19,9 @@ void drawGame(GAMESTATE gameState, Texture2D textures[]);
 // Updates the frame count used in animations
 void updateFrameCount(GAMESTATE *gameState);
 
+
+// Conditions to kill the fazendeiro
+void killFazendeiro(GAMESTATE *gameState);
+
+
 #endif

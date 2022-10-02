@@ -4,6 +4,8 @@
 void initializeFazendeiro(FAZENDEIRO *fazendeiro, Vector2 position, char name[]) {
   fazendeiro->position = position;
   fazendeiro->doente = 0;
+  fazendeiro->i_frames = STARTING_I_FRAMES;
+  fazendeiro->to_eat = 0;
   fazendeiro->speed = 5.0f;
   TextCopy(fazendeiro->name, name);
   fazendeiro->score = 0;
@@ -51,6 +53,13 @@ void updateFazendeiroFiringDelay(FAZENDEIRO *fazendeiro) {
     //printf("Firing delay: %d\n", fazendeiro->firing_delay_frames);
 }
 
+// Decreases the invulnerability counter
+void updateFazendeiroI_Frames(FAZENDEIRO *fazendeiro) {
+
+    // Decresases the i frames by 1 frame, if it is not already 0.
+    if (fazendeiro->i_frames > 0) fazendeiro->i_frames -= 1;
+}
+
 
 // Draws and animates the player
 void drawFazendeiro(FAZENDEIRO fazendeiro, int currentFrame, Texture2D texture){
@@ -90,3 +99,17 @@ void drawFazendeiro(FAZENDEIRO fazendeiro, int currentFrame, Texture2D texture){
                 WHITE);
 
 };
+
+void ateCogumelo(FAZENDEIRO * fazendeiro){
+    if(fazendeiro->to_eat != 0){
+
+        fazendeiro->to_eat -= 1;
+    }
+
+    else{
+
+        fazendeiro->doente = 0;
+    }
+
+
+}

@@ -14,7 +14,12 @@ void onFrame(GAMESTATE * gamestate, PLAYERINPUT * playerInput, Texture2D texture
 
         updateFazendeiroFiringDelay(&gamestate->fazendeiro);
 
+        updateFazendeiroI_Frames(&gamestate->fazendeiro);
+
         monsterHit(gamestate);
+
+        killFazendeiro(gamestate);
+
 
         BeginDrawing();
 
