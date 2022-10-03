@@ -8,6 +8,11 @@
 #define ANIMATION_FPS 8.0f
 #define TEXTURE_SCALE 1.5f
 
+#define SHADOW CLITERAL(Color){ 0, 0, 0, 128 }
+#define SHADOW_X_OFFSET 5
+#define SHADOW_Y_OFFSET 8
+
+
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGTH 1000
 #define PLAYER_UPPER_BOUND 3 * SCREEN_HEIGTH / 4
@@ -18,7 +23,7 @@
 #define MILIPEDE_SPEED 4
 #define MILIPEDE_DESCENT_SPEED 2
 #define MILIPEDE_FOLLOW_DISTANCE 46
-#define MILIPEDE_DESCENT_FRAMES 25
+#define MILIPEDE_DESCENT_FRAMES 45
 #define MILIPEDE_WALK_DIST_ANIM 20
 
 #define NUM_COGUMELOS 60
@@ -33,6 +38,8 @@
 #define COGUMELO_COLLECT_DISTANCE SCREEN_WIDTH + SCREEN_HEIGTH
 #define PLAYER_NAME_SIZE 25
 #define FIRING_DELAY 15
+#define I_FRAMES 120
+#define PARALIZED_FRAMES 30
 
 #define FAZENDEIRO_HITBOX_RADIUS 30
 #define MILIPEDE_HITBOX_RADIUS 30
@@ -59,9 +66,12 @@ typedef struct {
   char nome[PLAYER_NAME_SIZE];
   int vidas;
   int doente;
+  int to_eat;
+  int i_frames;
   int numTiros;
   int firing_delay_frames;
   int score;
+  int paralized;
 } FAZENDEIRO;
 
 typedef struct {

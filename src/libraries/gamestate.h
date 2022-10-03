@@ -26,7 +26,7 @@ void bootGame(GAMESTATE *gameState);
 // Update loop, switching between the multiple game states (paused, running, etc.)
 void gameLoop(GAMESTATE *gameState, PLAYERINPUT playerInput);
 
-// Runs the actual game 
+// Runs the actual game
 void gameRun(GAMESTATE *gameState, PLAYERINPUT playerInput);
 
 // Switches the gameStatus from paused to running and vice versa, when the pause button is pressed
@@ -34,6 +34,9 @@ void updateGameStatus(GAMESTATE *gameState, PLAYERINPUT playerInput);
 
 // Checks if the player has been hit by a monster
 void monsterHit(GAMESTATE *gameState);
+
+// Kills and respawns player on monster hit
+void killPlayer(GAMESTATE * gameState);
 
 // Counts the number of remaining mushrooms for displaying
 int countRemainingCogumelos(COGUMELO cogumelos[], int startingCogumelos);

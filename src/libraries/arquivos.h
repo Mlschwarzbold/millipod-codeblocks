@@ -47,12 +47,12 @@ int equalName(JOGADOR player1, JOGADOR player2);
 // Checks if the given player is already on the list
 int isInList(JOGADOR list[], JOGADOR player);
 
-// Sorts the 
+// Sorts the
 void sort(JOGADOR list[]);
 
 // Saves the ranking on Ranking.txt
 int saveRanking(JOGADOR list[]);
 
-// Initializes the list with empty players 
+// Initializes the list with empty players
 void initializeList(JOGADOR list[]);
 #endif

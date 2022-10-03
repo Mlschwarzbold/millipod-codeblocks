@@ -20,7 +20,7 @@ void initializeGameState(GAMESTATE *gameState, int numCogumelos) {
 // Draws the game area
 void drawGame(GAMESTATE *gameState, Texture2D textures[]) {
   // Draw the background
-  ClearBackground(DARKPURPLE);
+  ClearBackground(DARKGREEN);
 
   // Draw the textured backgroubd
   //drawBackground(textures[BACKGROUND_INDEX]);
@@ -111,9 +111,12 @@ void updateGameStatus(GAMESTATE *gameState, PLAYERINPUT playerInput) {
 
 // Runs the actual game
 void gameRun(GAMESTATE *gameState, PLAYERINPUT playerInput) {
-  updateFazendeiroPosition(&(gameState->fazendeiro), playerInput.movement);
-  updateFazendeiroDirection(&(gameState->fazendeiro), playerInput.mousePosition);
+  if(gameState->fazendeiro.paralized == 0){
+    updateFazendeiroPosition(&(gameState->fazendeiro), playerInput.movement);
+    updateFazendeiroDirection(&(gameState->fazendeiro), playerInput.mousePosition);
+  }
   updateFazendeiroFiringDelay(&(gameState->fazendeiro));
+  updateFazendeiroCounters(&(gameState->fazendeiro));
 
   monsterHit(gameState);
   updateAllSpiders(gameState->aranhas, gameState);
@@ -173,12 +176,42 @@ void bootGame(GAMESTATE *gameState) {
 
 // Checks if the player has been hit by a monster
 void monsterHit(GAMESTATE *gameState) {
-    //test hit against spiders
-    if(aranhaFazendeiroCollidesAll(gameState->aranhas, gameState->fazendeiro))
-        gameState->fazendeiro.doente = 1;
-    //test hit against milipede
-    if(milipedeFazendeiroCollides(gameState->milipede, gameState->fazendeiro))
-        gameState->fazendeiro.doente = 1;
+    //applies i-frames
+    if(gameState->fazendeiro.i_frames == 0){
+        //test hit against spiders
+        if(aranhaFazendeiroCollidesAll(gameState->aranhas, gameState->fazendeiro)){
+            if(gameState->fazendeiro.to_eat != 0){
+                killPlayer(&gameState->fazendeiro);
+            } else {
+                gameState->fazendeiro.paralized = PARALIZED_FRAMES;
+                gameState->fazendeiro.doente = 1;
+                gameState->fazendeiro.to_eat = 4;
+            }
+            gameState->fazendeiro.i_frames = I_FRAMES;
+        }
+        //test hit against milipede
+        if(milipedeFazendeiroCollides(gameState->milipede, gameState->fazendeiro)){
+            if(gameState->fazendeiro.to_eat != 0){
+                killPlayer(&gameState->fazendeiro);
+            } else {
+                gameState->fazendeiro.paralized = PARALIZED_FRAMES;
+                gameState->fazendeiro.doente = 1;
+                gameState->fazendeiro.to_eat = 4;
+            }
+            gameState->fazendeiro.i_frames = I_FRAMES;
+
+        }
+    }
+}
+
+void killPlayer(GAMESTATE * gameState){
+    if(gameState->fazendeiro.vidas == 0){
+        printf("Game Has Ended! \n");
+    }
+    gameState->fazendeiro.vidas--;
+    gameState->fazendeiro.to_eat = 0;
+    gameState->fazendeiro.doente = 0;
+
 }
 
 // Counts the number of remaining mushrooms for displaying

@@ -46,6 +46,10 @@ void updateMilipede(MILIPEDE_HEAD * milipede, GAMESTATE * gamestate){
     }
 
     updateSegments(milipede);
+
+    // Kills the milipede if it goes below the screen
+    if(milipede->position.y > SCREEN_HEIGTH + 50)
+        milipede->state = INATIVO;
 }
 
 void updateSegments(MILIPEDE_HEAD * milipede){
@@ -184,36 +188,8 @@ void segmentMoveTo(MILIPEDE_SEGMENT * segment, Vector2 prev){
 
 void drawMilipede(MILIPEDE_HEAD milipede, int currentFrame, Texture2D texture){
     int index = 0;
-    Rectangle animationRect;
-    Rectangle destRect;
-    Vector2 originVector;
-
-    // Draws the head sprite based on its animation frame
-    animationRect.x = SPRITE_SIZE * currentFrame;
-    animationRect.y = SPRITE_SIZE;
-    animationRect.width = (float) SPRITE_SIZE;
-    animationRect.height = (float) SPRITE_SIZE;
-
-    // Shift the sprite by half its size as to draw it on its center
-    originVector.x = (float) SPRITE_SIZE * TEXTURE_SCALE / 2.0f;
-    originVector.y = (float) SPRITE_SIZE * TEXTURE_SCALE / 2.0f;
-
-    destRect.width = SPRITE_SIZE * TEXTURE_SCALE;
-    destRect.height = SPRITE_SIZE * TEXTURE_SCALE;
-    destRect.x = milipede.position.x;
-    destRect.y = milipede.position.y;
-
 
     if(milipede.state == ATIVO){
-    //draw the head
-        //DrawText("o", milipede.position.x, milipede.position.y, 80, YELLOW);
-        //DrawCircleV(milipede.position, 30, YELLOW);
-        DrawTexturePro(texture,
-                    animationRect,
-                    destRect,
-                    originVector,
-                    milipede.angle,
-                    WHITE);
 
     //draw the body
         while(index < NUM_MAX_SEGMENTOS){
@@ -221,42 +197,23 @@ void drawMilipede(MILIPEDE_HEAD milipede, int currentFrame, Texture2D texture){
                 drawMilipedeSegment(milipede.segments[index], currentFrame, texture);
             index++;
         }
+
+                //draw the head
+        drawSprite(texture, milipede.position, milipede.angle, currentFrame, 1, 1);
+        drawSprite(texture, milipede.position, milipede.angle, currentFrame, 1, 0);
     }
 
 }
 
 void drawMilipedeSegment(MILIPEDE_SEGMENT segment, int currentFrame, Texture2D texture){
-    Rectangle animationRect;
-    Rectangle destRect;
-    Vector2 originVector;
-
     int pixelMod;
 
     pixelMod = ((int)(segment.position.x + segment.position.y)/MILIPEDE_WALK_DIST_ANIM % 2);
-
-    // Draws the head sprite based on its animation frame
-    animationRect.x = SPRITE_SIZE * pixelMod;
-    animationRect.y = 0.0f;
-    animationRect.width = (float) SPRITE_SIZE;
-    animationRect.height = (float) SPRITE_SIZE;
-
-    // Shift the sprite by half its size as to draw it on its center
-    originVector.x = (float) SPRITE_SIZE * TEXTURE_SCALE / 2.0f;
-    originVector.y = (float) SPRITE_SIZE * TEXTURE_SCALE / 2.0f;
-
-    destRect.width = SPRITE_SIZE * TEXTURE_SCALE;
-    destRect.height = SPRITE_SIZE * TEXTURE_SCALE;
-    destRect.x = segment.position.x;
-    destRect.y = segment.position.y;
-
     //segment hitbox
     //DrawCircleV(segment.position, 25, YELLOW);
-    DrawTexturePro(texture,
-                    animationRect,
-                    destRect,
-                    originVector,
-                    segment.angle,
-                    WHITE);
+    drawSprite(texture, segment.position, segment.angle, pixelMod, 0, 1);
+    drawSprite(texture, segment.position, segment.angle, pixelMod, 0, 0);
+
 }
 
 void collideMilipede(FAZENDEIRO fazendeiro, MILIPEDE_HEAD milipede, RAYCOLLISION2D * collision){

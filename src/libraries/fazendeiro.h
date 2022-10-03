@@ -20,6 +20,9 @@ void drawFazendeiro(FAZENDEIRO fazendeiro, int currentFrame, Texture2D texture);
 // Updates the firing delay
 void updateFazendeiroFiringDelay(FAZENDEIRO *fazendeiro);
 
+// Updates the invincibility frames, paralized counter
+void updateFazendeiroCounters(FAZENDEIRO *fazendeiro);
+
 // Makes a shot from the player into its target direction
 void shoot(GAMESTATE *gameState);
 

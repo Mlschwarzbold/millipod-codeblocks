@@ -1,4 +1,5 @@
 #include "aranha.h"
+#include "render.h"
 
 // Initializes all the spiders
 void initializeAranhas(GAMESTATE * gamestate){
@@ -51,6 +52,11 @@ void updateSpiderPositionAndMushrooms(ARANHA *aranha, GAMESTATE * gamestate){
     aranha->velocity = Vector2Multiply(aranha->velocity, testAranhaNextFrameCollision(*aranha, gamestate));
 
     aranha->position = Vector2Add(aranha->position, aranha->velocity);
+
+    // Kills the spider if it goes below the screen
+    if(aranha->position.y > SCREEN_HEIGTH + 50)
+        aranha->state = INATIVO;
+
 }
 
 Vector2 testAranhaNextFrameCollision(ARANHA aranha, GAMESTATE * gamestate){
@@ -82,7 +88,7 @@ Vector2 testAranhaNextFrameCollision(ARANHA aranha, GAMESTATE * gamestate){
 // Check if the spider hit the border
 int aranhaBorderCollides(ARANHA aranha)
 {
-    if(aranha.position.x < 0 || (aranha.position.y < 0 && aranha.velocity.y < 0) || aranha.position.x > SCREEN_WIDTH|| aranha.position.y > SCREEN_HEIGTH)
+    if(aranha.position.x < 0 || (aranha.position.y < 0 && aranha.velocity.y < 0) || aranha.position.x > SCREEN_WIDTH)
         return 1;
     else
         return 0;
@@ -139,38 +145,13 @@ int aranhaFazendeiroCollidesAll(ARANHA aranhas[], FAZENDEIRO player){
 
 void drawSpiders(ARANHA aranhas[], int currentFrame, Texture2D texture){
     int index;
-    Rectangle animationRect;
-    Rectangle destRect;
-    Vector2 originVector;
-
-    // Draws the spider sprite based on its animation frame
-    animationRect.x = SPRITE_SIZE * currentFrame;
-    animationRect.y = 0.0f;
-    animationRect.width = (float) SPRITE_SIZE;
-    animationRect.height = (float) SPRITE_SIZE;
-
-    // Shift the sprite by half its size as to draw it on its center
-    originVector.x = (float) SPRITE_SIZE * TEXTURE_SCALE / 2.0f;
-    originVector.y = (float) SPRITE_SIZE * TEXTURE_SCALE / 2.0f;
-
-    destRect.width = SPRITE_SIZE * TEXTURE_SCALE;
-    destRect.height = SPRITE_SIZE * TEXTURE_SCALE;
-
-
     for(index = 0; index < NUM_ARANHAS; index++)
     {
-        //DrawText("*", aranhas[index].position.x, aranhas[index].position.y, 40, WHITE);
-        if(aranhas[index].state == ATIVO) {
-            destRect.x = aranhas[index].position.x;
-            destRect.y = aranhas[index].position.y;
 
-            //DrawCircleV(aranhas[index].position, ARANHA_HITBOX_RADIUS, PURPLE);
-            DrawTexturePro(texture,
-                    animationRect,
-                    destRect,
-                    originVector,
-                    0,
-                    WHITE);
+        if(aranhas[index].state == ATIVO) {
+            drawSprite(texture, aranhas[index].position, 0, currentFrame, 0, 1);
+            drawSprite(texture, aranhas[index].position, 0, currentFrame, 0, 0);
+
         }
     }
 

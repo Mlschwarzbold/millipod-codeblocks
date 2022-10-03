@@ -5,10 +5,13 @@ void initializeFazendeiro(FAZENDEIRO *fazendeiro, Vector2 position) {
   fazendeiro->position = position;
   fazendeiro->speed = 5.0f;
   fazendeiro->doente = 0;
+  fazendeiro->to_eat = 0;
+  fazendeiro->i_frames = 0;
   fazendeiro->numTiros = STARTING_TIROS;
   fazendeiro->vidas = 3;
   fazendeiro->score = 0;
   fazendeiro->firing_delay_frames = 0;
+  fazendeiro->paralized = 0;
   TextCopy(fazendeiro->nome, "");
 }
 
@@ -49,36 +52,14 @@ void updateFazendeiroDirection(FAZENDEIRO *fazendeiro, Vector2 mousePosition) {
 
 // Draws and animates the player
 void drawFazendeiro(FAZENDEIRO fazendeiro, int currentFrame, Texture2D texture){
-  Rectangle animationRect;
-  Rectangle destRect;
-  Vector2 originVector;
-
-  // Draws the player sprite based on its direction and animation frame
-  animationRect.x = SPRITE_SIZE * fazendeiro.direction;
-
-  animationRect.y = SPRITE_SIZE * currentFrame;
-  animationRect.width = (float) SPRITE_SIZE;
-  animationRect.height = (float) SPRITE_SIZE;
-
-  destRect.x = fazendeiro.position.x;
-  destRect.y = fazendeiro.position.y;
-  destRect.width = SPRITE_SIZE * TEXTURE_SCALE;
-  destRect.height = SPRITE_SIZE * TEXTURE_SCALE;
-
-  // Shift the sprite by half its size as to draw it on its center
-  originVector.x = (float) SPRITE_SIZE * TEXTURE_SCALE / 2.0f;
-  originVector.y = (float) SPRITE_SIZE * TEXTURE_SCALE / 2.0f;
 
 if(fazendeiro.doente == 0)
     DrawCircle(fazendeiro.position.x, fazendeiro.position.y, 32, BLUE);
   else
     DrawCircle(fazendeiro.position.x, fazendeiro.position.y, 32, RED);
-  DrawTexturePro(texture,
-                animationRect,
-                destRect,
-                originVector,
-                0,
-                WHITE);
+    drawSprite(texture, fazendeiro.position, 0, fazendeiro.direction, currentFrame, 1);
+    drawSprite(texture, fazendeiro.position, 0, fazendeiro.direction, currentFrame, 0);
+
 
 };
 
@@ -89,6 +70,19 @@ void updateFazendeiroFiringDelay(FAZENDEIRO *fazendeiro) {
     if (fazendeiro->firing_delay_frames > 0) fazendeiro->firing_delay_frames -= 1;
     //printf("Firing delay: %d\n", fazendeiro->firing_delay_frames);
 }
+
+
+// Updates the invincibility frames, paralized counter
+void updateFazendeiroCounters(FAZENDEIRO *fazendeiro) {
+
+    // Decresases the i-frames by one, if it is not already 0.
+    if (fazendeiro->i_frames > 0) fazendeiro->i_frames -= 1;
+    //printf("I-FRAMES: %d\n", fazendeiro->i_frames);
+
+    // Decresases the paralized counter by one, if it is not already 0.
+    if (fazendeiro->paralized > 0) fazendeiro->paralized -= 1;
+}
+
 
 // Makes a shot from the player into its target direction
 void shoot(GAMESTATE *gameState) {
@@ -105,8 +99,12 @@ void shoot(GAMESTATE *gameState) {
   // See if the shot actually hit something
   if (shotCollision.collisionType == cogumeloHit) {
     gameState->cogumelos[shotCollision.targetIndex].state = INATIVO;
-    gameState->fazendeiro.score += 50;
-    gameState->harvestedCogumelos++;
+    if(gameState->fazendeiro.to_eat == 0){
+        gameState->fazendeiro.score += 50;
+        gameState->harvestedCogumelos++;
+    } else {
+        gameState->fazendeiro.to_eat--;
+    }
   }
   if (shotCollision.collisionType == aranhaHit) {
     gameState->aranhas[shotCollision.targetIndex].state = INATIVO;
