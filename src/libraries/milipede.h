@@ -12,7 +12,7 @@ void initializeMilipedeSegment(MILIPEDE_SEGMENT * segment);
 
 void updateMilipede(MILIPEDE_HEAD * milipede, GAMESTATE * gamestate);
 
-int testMilipedeNextFrameCollision(MILIPEDE_HEAD * milipede, GAMESTATE * gamestate);
+int testMilipedeNextFrameCollision(MILIPEDE_HEAD *milipede, GAMESTATE * gamestate);
 
 int milipedeBorderCollision(Vector2 position);
 
@@ -38,9 +38,12 @@ void collideMilipede(FAZENDEIRO fazendeiro, MILIPEDE_HEAD milipede, RAYCOLLISION
 
 int shortenMilipede(MILIPEDE_HEAD * milipede);
 
-void lengthenMilipede(MILIPEDE_HEAD * milipede);
-
 void respawnMilipede(MILIPEDE_HEAD * milipede);
 
+// Count the amount of segments the milipede has:
+int countSegments(MILIPEDE_HEAD *milipede);
+
+// Increase the number of segments of the milipede by 1
+void lengthenMilipede(MILIPEDE_HEAD * milipede);
 #endif
 

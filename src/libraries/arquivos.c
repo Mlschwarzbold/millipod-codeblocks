@@ -46,35 +46,49 @@ int loadGame(GAMESTATE *gameState) {
 // Returns the amount of players read
 int loadRankingList (JOGADOR list[]) {
     FILE *arq;
+    JOGADOR temp_player = EMPTY_PLAYER;
+    int num_players = 0;
+    char linha[LINE_SIZE];
+
     // Check to see if the ranking file is there:
     if (!FileExists(RANKING_PATH)) {
         // If it doesn't, create it and stop the execution
+        printf("Creating a new score file...\n");
         arq = fopen(RANKING_PATH, "w+");
         fclose(arq);
         return 0;
     }
+    printf("Score file found\n");
     // If it does, load data from it
     arq = fopen(RANKING_PATH, "r");
-    JOGADOR temp_player;
-    int num_players = 0;
-    char linha[LINE_SIZE];
+    printf("Score file opened\n");
 
     // Se houve algum erro ao abrir o arquivo, retorna 0;
     if (ferror(arq)) {
+        printf("Closing fle...\n");
         fclose(arq);
         return 0;
     }
     // Le ate chegar no final do arquivo:
     while (!feof(arq)) {
+        printf("Reading file until end...\n");
         fgets(linha, LINE_SIZE, arq);
+        printf("Read a line\n");
+        printf("Nome do jogador e: %s \n", temp_player.nome);
+        temp_player.nome[1] = 'J';
+        printf("Nome do jogador e: %s \n", temp_player.nome);
         // Extrai os dados do jogador e salva-o na lista
         strcpy(temp_player.nome, strtok(linha, ";"));
+        printf("Copying strings\n");
         temp_player.pontuacao = atoi(strtok(NULL, "\0"));
+        printf("Copying score\n");
         list[num_players] = temp_player;
+        printf("Adding temp player\n");
 
         // Atualiza o numero de jogadores
         num_players++;
     }
+    printf("Closing file with no errors.\n");
     fclose(arq);
 
     // Ao final da leitura, retornar o numero de jogadores lidos
@@ -92,7 +106,7 @@ int insertPlayer(JOGADOR list[], JOGADOR player) {
     int num_elementos = 0,
         duplicata_index;
 
-    // Procura um local vazio na lista ou um local onde o 
+    // Procura um local vazio na lista ou um local onde o
     while (num_elementos < NUM_PLAYERS && // nao estourou o limite de jogadores
            !isEmptyPlayer(list[num_elementos])) // nao achou lugar vazio)
         num_elementos++;
@@ -103,7 +117,7 @@ int insertPlayer(JOGADOR list[], JOGADOR player) {
     // Se achou uma duplicata, atualiza o jogador
     if (duplicata_index != NOT_FOUND) {
         list[duplicata_index] = player;
-        // Retorna a quantidade 
+        // Retorna a quantidade
         return num_elementos;
     } else { // Senao, insere no final da lista (primeira posicao vazia)
         list[num_elementos] = player;
@@ -112,7 +126,7 @@ int insertPlayer(JOGADOR list[], JOGADOR player) {
         // (equivalente a quantidade de jogadores na lista)
         return num_elementos + 1;
     }
-    
+
 }
 
 // Verifica se dois jogadores possuem o mesmo nome
@@ -124,11 +138,11 @@ int equalName (JOGADOR player1, JOGADOR player2) {
 int isInList(JOGADOR lista[], JOGADOR jog) {
     int duplicata_index = 0;
 
-    // Procura por um jogador de mesmo nome na lista 
+    // Procura por um jogador de mesmo nome na lista
     while (duplicata_index < NUM_PLAYERS &&
            !equalName(jog, lista[duplicata_index]))
            duplicata_index++;
-    
+
     // Se achou uma duplicata, retornar seu indice
     if (duplicata_index != NUM_PLAYERS)
         return duplicata_index;
@@ -142,7 +156,7 @@ int isInList(JOGADOR lista[], JOGADOR jog) {
 void sort(JOGADOR list[]) {
     JOGADOR player_aux;
     int player_index = 1;
-    
+
     while(player_index < NUM_PLAYERS+1) // Account for the temp player
     {
         if(list[player_index].pontuacao > list[player_index-1].pontuacao)
@@ -170,7 +184,7 @@ int saveRanking(JOGADOR lista[]) {
 
     // Senao, passa salva os jogadores validos na lista
     // (Ate chegar no maximo de jogadores ou achar um vazio)
-    while(num_players < NUM_PLAYERS && 
+    while(num_players < NUM_PLAYERS &&
           !isEmptyPlayer(lista[num_players])) {
         fprintf(arq, "%s;%d\n", lista[num_players].nome, lista[num_players].pontuacao);
         num_players++;

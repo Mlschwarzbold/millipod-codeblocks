@@ -17,7 +17,7 @@
 #define RANKING_PATH "Ranking.txt"
 
 // Define um jogador vazio para ser usado nas listas
-#define EMPTY_PLAYER (JOGADOR) {{0}, 0}
+#define EMPTY_PLAYER (JOGADOR) {"Craig", 0}
 
 typedef struct {
     char nome[PLAYER_NAME_SIZE];

@@ -6,6 +6,9 @@
 #include "./libraries/playerControl.h"
 #include "./libraries/cogumelo.h"
 #include "./libraries/gamestate.h"
+#include "./libraries/render.h"
+#include "./libraries/milipede.h"
+#include "./libraries/aranha.h"
 
 int main(void)
 {

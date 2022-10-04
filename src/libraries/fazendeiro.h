@@ -4,6 +4,8 @@
 #include "definitions.h"
 #include "raylib.h"
 #include "cogumelo.h"
+#include "aranha.h"
+#include "milipede.h"
 
 // Initializes the player
 void initializeFazendeiro(FAZENDEIRO *fazendeiro, Vector2 position);
@@ -20,10 +22,13 @@ void drawFazendeiro(FAZENDEIRO fazendeiro, int currentFrame, Texture2D texture);
 // Updates the firing delay
 void updateFazendeiroFiringDelay(FAZENDEIRO *fazendeiro);
 
-// Updates the invincibility frames, paralized counter
-void updateFazendeiroCounters(FAZENDEIRO *fazendeiro);
-
 // Makes a shot from the player into its target direction
 void shoot(GAMESTATE *gameState);
+
+// Make the player take damage
+void playerTakeDamage(FAZENDEIRO *fazendeiro, int damage);
+
+// Updates the player state from active to inactive
+void updateFazendeiroState(FAZENDEIRO *fazendeiro);
 
 #endif

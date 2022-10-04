@@ -6,7 +6,7 @@ void initializeMilipede(MILIPEDE_HEAD * milipede){
     milipede->position.x = GetRandomValue(2*MILIPEDE_HITBOX_RADIUS, SCREEN_WIDTH - 2*MILIPEDE_HITBOX_RADIUS);
     milipede->position.y = -50;
     milipede->direction = 1;
-    milipede->state = ATIVO;
+    milipede->state = ACTIVE;
     milipede->descendFrames = 30;
     for(index=0; index < NUM_MAX_SEGMENTOS; index++)
     {
@@ -16,12 +16,12 @@ void initializeMilipede(MILIPEDE_HEAD * milipede){
 }
 
 void initializeMilipedeSegment(MILIPEDE_SEGMENT * segment){
-    segment->state = ATIVO;
+    segment->state = ACTIVE;
     segment->position.x = -100;
     segment->position.y = -100;
 }
 void updateMilipede(MILIPEDE_HEAD * milipede, GAMESTATE * gamestate){
-    if(milipede->state == INATIVO)
+    if(milipede->state == INACTIVE)
         return;
 
     //test collision on next frame
@@ -31,7 +31,7 @@ void updateMilipede(MILIPEDE_HEAD * milipede, GAMESTATE * gamestate){
         milipede->descendFrames = MILIPEDE_DESCENT_FRAMES;
 
     }
-    //update position and angle
+    //update position
     if(milipede->descendFrames > 0){
         //descend
         milipede->position.y += MILIPEDE_DESCENT_SPEED;
@@ -45,11 +45,16 @@ void updateMilipede(MILIPEDE_HEAD * milipede, GAMESTATE * gamestate){
         milipede->angle = 90 + milipede->direction * -90;
     }
 
+    // Check if milipede has gone all the way to the bottom
+    if(milipede->position.y >= SCREEN_HEIGTH + MILIPEDE_HITBOX_RADIUS) {
+        initializeMilipede(milipede);
+    }
+
     updateSegments(milipede);
 
     // Kills the milipede if it goes below the screen
     if(milipede->position.y > SCREEN_HEIGTH + 50)
-        milipede->state = INATIVO;
+        milipede->state = INACTIVE;
 }
 
 void updateSegments(MILIPEDE_HEAD * milipede){
@@ -69,7 +74,7 @@ void updateSegments(MILIPEDE_HEAD * milipede){
 }
 
 
-int testMilipedeNextFrameCollision(MILIPEDE_HEAD * milipede, GAMESTATE * gamestate){
+int testMilipedeNextFrameCollision(MILIPEDE_HEAD *milipede, GAMESTATE * gamestate){
     //Generate the next frame position
     MILIPEDE_HEAD nextFrameMilipede = *milipede;
 
@@ -85,8 +90,7 @@ int testMilipedeNextFrameCollision(MILIPEDE_HEAD * milipede, GAMESTATE * gamesta
 
     if(milipedeBorderCollision(nextFrameMilipede.position) || milipedeCogumeloCollidesAll(nextFrameMilipede, milipede, gamestate->cogumelos))
         return 1;
-    else
-        return 0;
+    return 0;
 }
 
 int milipedeBorderCollision(Vector2 position){
@@ -98,7 +102,7 @@ int milipedeBorderCollision(Vector2 position){
 }
 
 int milipedeCogumeloCollides(MILIPEDE_HEAD milipede, COGUMELO cogumelo){
-    if(cogumelo.state == INATIVO) // cannot collide with inactive/destroyed mushroom
+    if(cogumelo.state == INACTIVE) // cannot collide with inactive/destroyed mushroom
         return 0;
 
     if(CheckCollisionCircles(milipede.position, MILIPEDE_HITBOX_RADIUS, cogumelo.position, COGUMELO_HITBOX_RADIUS))
@@ -115,7 +119,6 @@ int milipedeCogumeloCollidesAll(MILIPEDE_HEAD milipede, MILIPEDE_HEAD * real_mil
     for(index=0; index < NUM_COGUMELOS; index++)
     {
         if(milipedeCogumeloCollides(milipede, cogumelos[index])){
-
             lengthenMilipede(real_milipede);
             destroyCogumelo(cogumelos, index);
             return 1;
@@ -132,7 +135,7 @@ void killMilipede(GAMESTATE * gamestate){
 
 
 int milipedeFazendeiroCollides(MILIPEDE_HEAD milipede, FAZENDEIRO player){
-    if(milipede.state == INATIVO) // cannot collide with inactive/destroyed milipede
+    if(milipede.state == INACTIVE) // cannot collide with inactive/destroyed milipede
         return 0;
 
     if(CheckCollisionCircles(milipede.position, MILIPEDE_HITBOX_RADIUS, player.position, FAZENDEIRO_HITBOX_RADIUS))
@@ -142,7 +145,7 @@ int milipedeFazendeiroCollides(MILIPEDE_HEAD milipede, FAZENDEIRO player){
 }
 
 void segmentFollow(MILIPEDE_SEGMENT * segment, Vector2 prev){
-    if( Vector2Distance(segment->position, prev) > MILIPEDE_FOLLOW_DISTANCE){
+    if(Vector2Distance(segment->position, prev) > MILIPEDE_FOLLOW_DISTANCE){
         segmentMoveTo(segment, prev);
     }
 }
@@ -189,11 +192,11 @@ void segmentMoveTo(MILIPEDE_SEGMENT * segment, Vector2 prev){
 void drawMilipede(MILIPEDE_HEAD milipede, int currentFrame, Texture2D texture){
     int index = 0;
 
-    if(milipede.state == ATIVO){
+    if(milipede.state == ACTIVE){
 
     //draw the body
         while(index < NUM_MAX_SEGMENTOS){
-            if(milipede.segments[index].state == ATIVO)
+            if(milipede.segments[index].state == ACTIVE)
                 drawMilipedeSegment(milipede.segments[index], currentFrame, texture);
             index++;
         }
@@ -223,7 +226,7 @@ void collideMilipede(FAZENDEIRO fazendeiro, MILIPEDE_HEAD milipede, RAYCOLLISION
   int i;
 
     // Check if milipede head is active and in the aim line
-    if (milipede.state == ATIVO &&
+    if (milipede.state == ACTIVE &&
         CheckCollisionPointLine(milipede.position, fazendeiro.position, fazendeiroAimMaxRange, AIM_RADIUS))
     {
       currentDistance = Vector2Distance(milipede.position, fazendeiro.position);
@@ -242,35 +245,41 @@ void collideMilipede(FAZENDEIRO fazendeiro, MILIPEDE_HEAD milipede, RAYCOLLISION
 
 int shortenMilipede(MILIPEDE_HEAD * milipede){
     int index = 0;
-    if(milipede->segments[0].state == INATIVO){
-        milipede->state = INATIVO;
+    if(milipede->segments[0].state == INACTIVE){
+        milipede->state = INACTIVE;
         return 300;
     }
     // Travels the segments until the last one, be that the max number of segments or the last active segment
-    while(index < NUM_MAX_SEGMENTOS && milipede->segments[index].state == ATIVO){
+    while(index < NUM_MAX_SEGMENTOS && milipede->segments[index].state == ACTIVE){
         index++;
     }
-    milipede->segments[index - 1].state = INATIVO;
+    milipede->segments[index - 1].state = INACTIVE;
 
     return 250;
 }
-
-void lengthenMilipede(MILIPEDE_HEAD * milipede){
+void lengthenMilipede(MILIPEDE_HEAD * milipede) {
     int index = 0;
     // Travels the segments until the last one, be that the max number of segments or the last active segment
-    while((index + 1) < NUM_MAX_SEGMENTOS && milipede->segments[index].state == ATIVO){
+    while((index + 1) < NUM_MAX_SEGMENTOS && milipede->segments[index].state == ACTIVE){
         index++;
     }
-    milipede->segments[index].state = ATIVO;
-
-    return 250;
-
+    milipede->segments[index].state = ACTIVE;
 }
 
 
 void respawnMilipede(MILIPEDE_HEAD * milipede){
-    if(milipede->state == INATIVO){
+    if(milipede->state == INACTIVE){
         initializeMilipede(milipede);
     }
 
+}
+
+// Count the amount of segments the milipede has:
+int countSegments(MILIPEDE_HEAD *milipede) {
+    int index = 0;
+    // Travels the segments until the last one, be that the max number of segments or the last active segment
+    while(index < NUM_MAX_SEGMENTOS && milipede->segments[index].state == ACTIVE){
+        index++;
+    }
+    return index+1;
 }

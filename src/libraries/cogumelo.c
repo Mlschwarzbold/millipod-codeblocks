@@ -11,7 +11,7 @@ void initializeCogumelos(COGUMELO cogumelos[], Rectangle coverArea, int numCogum
 
     cogumelos[i].position.x = random_x;
     cogumelos[i].position.y = random_y;
-    cogumelos[i].state = ATIVO;
+    cogumelos[i].state = ACTIVE;
   }
 }
 
@@ -20,7 +20,7 @@ void drawCogumelos(COGUMELO cogumelos[], int currentFrame, Texture2D texture) {
   int i;
   // Draws the mushroom sprite based on its animation frame
   for (i = 0; i < NUM_COGUMELOS; i++) {
-    if (cogumelos[i].state == ATIVO) {
+    if (cogumelos[i].state == ACTIVE) {
       //DrawCircle(cogumelos[i].position.x, cogumelos[i].position.y, 32, GREEN);
       drawSprite(texture, cogumelos[i].position, 0, currentFrame, 0, 1);
       drawSprite(texture, cogumelos[i].position, 0, currentFrame, 0, 0);
@@ -39,7 +39,7 @@ RAYCOLLISION2D collideCogumelos(FAZENDEIRO fazendeiro, COGUMELO cogumelos[]) {
 
   for (i = 0; i < NUM_COGUMELOS; i++) {
     // Check if mushroom is active and in the aim line
-    if (cogumelos[i].state == ATIVO &&
+    if (cogumelos[i].state == ACTIVE &&
         CheckCollisionPointLine(cogumelos[i].position, fazendeiro.position, fazendeiroAimMaxRange, AIM_RADIUS))
     {
       currentDistance = Vector2Distance(cogumelos[i].position, fazendeiro.position);
@@ -60,5 +60,5 @@ RAYCOLLISION2D collideCogumelos(FAZENDEIRO fazendeiro, COGUMELO cogumelos[]) {
 }
 
 void destroyCogumelo(COGUMELO * cogumelos, int index){
-    cogumelos[index].state = INATIVO;
+    cogumelos[index].state = INACTIVE;
 }
